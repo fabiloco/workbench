@@ -1,0 +1,6 @@
+@import "../../../../styles.css";
+
+.container {
+	width: 100%;
+	background-color: var(--task-bg);
+}
