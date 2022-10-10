@@ -12,7 +12,9 @@
   font-family: "ModernDOS8x16";
 }
 
-:root {
-  --task-bar: red;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
 }
-

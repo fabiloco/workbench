@@ -5,9 +5,9 @@ import {
 
 export const WorkbenchApp = () => {
   return (
-    <>
+    <div className="container">
       <Taskbar />
       <Desktop />
-    </>
+    </div>
   );
 };

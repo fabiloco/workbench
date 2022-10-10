@@ -1,6 +1,12 @@
-@import "../../../../styles.css";
+@import url("../../../../colors.css");
 
 .container {
 	width: 100%;
-	background-color: var(--task-bg);
+	height: fit-content;
+	background-color: var(--secondary);
+	padding: 4px 8px;
+}
+
+.title {
+	color: var(--primary);
 }
