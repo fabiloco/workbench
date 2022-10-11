@@ -1,60 +1,64 @@
-import { FC, useRef, useState } from "react";
+import { FC, RefObject, useEffect, useRef, useState } from "react";
+
+import { Position } from "../desktop";
 
 import styles from "./styles/icon.module.css";
 
 interface IconProps {
 	name: string;
 	iconUrl: string;
+	containerRef: RefObject<HTMLDivElement>;
+	initPosition: Position;
+	mousePosition: Position;
 };
 
-export const Icon: FC<IconProps> = ({ name, iconUrl }) => {
-	const [{ x, y, dx, dy, dragging }, setPosition] = useState({ 
-		x: 0, y: 0, dx: 0, dy: 0, dragging: false 
+export const Icon: FC<IconProps> = ({ 
+	name, 
+	iconUrl, 
+	containerRef,
+	initPosition,
+	mousePosition,
+}) => {
+	const [draggin, setDraggin] = useState(false);
+	const [{ x, y }, setPosition] = useState<Position>({ 
+		x: initPosition.x, 
+		y: initPosition.y 
 	});
+
+	const [{ dx, dy }, setDPosition] = useState({ dx: 0, dy: 0 });
 
 	const iconRef = useRef<HTMLDivElement>(null);
 
 	const onDragStart = (event: React.MouseEvent<HTMLDivElement> ) => {
-		//console.log(event.clientX - event.currentTarget.getBoundingClientRect().left);
-		//setPosition(prevState => ({
-			//...prevState,
-			//dx: mouseX - event.currentTarget?.getBoundingClientRect().left,
-			//dy: mouseY - event.currentTarget?.getBoundingClientRect().top,
-			//dragging: true,
-		//}));	
-	};
-
-	const onDragging = (event: React.MouseEvent<HTMLDivElement>) => {
-		//if(!dragging) return;
-
-		let left = mouseX - dx -30;
-		let top = mouseY - dy-30;
-
-		setPosition(prevState => ({
-			...prevState,
-			x: left,
-			y: top,
-		}));
+		setDraggin(true);
+		setDPosition({
+			dx: event.nativeEvent.offsetX,
+			dy: event.nativeEvent.offsetY,
+		});
 	};
 
 	const onDragEnd = () => {
-		setPosition(prevState => ({
-			...prevState,
-			dragging: false,
-		}));
+		setDraggin(false);
 	};
+
+	useEffect(() => {
+		if (!draggin) return;
+		setPosition(prevState => {
+			return {
+				...prevState,
+				x: mousePosition.x - containerRef?.current?.offsetLeft - dx, 
+				y: mousePosition.y - containerRef.current?.offsetTop - dy,
+			}
+		});
+		iconRef.current?.setAttribute('style', `transform: translate(${x}px, ${y}px)`); 
+	}, [mousePosition, dx, dy]);
 
   return (
 		<div 
 			className={styles.container}
 			ref={ iconRef }
 			onMouseDown={ onDragStart }
-			onMouseMove={ onDragging }
 			onMouseUp={ onDragEnd }
-			style={{
-				top: y,
-				left: x,
-			}}
 		>
 			<div
 				className={styles.icon__dragger}
