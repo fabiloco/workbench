@@ -5,6 +5,5 @@ export const Taskbar = () => {
     <div className={styles.container} >
       <p className={styles.title}>fabiloco's workbench</p>
     </div>
-  )
-}
-
+  );
+};

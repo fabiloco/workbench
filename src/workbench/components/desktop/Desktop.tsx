@@ -1,11 +1,12 @@
 import { 
   useRef, 
   useState 
-} from "react";
+} from 'react';
 
-import { Icon } from "../icon/Icon";
+import { Icon } from '../icon/Icon';
+import { Window } from '../window/Window';
 
-import styles from "./styles/desktop.module.css";
+import styles from './styles/desktop.module.css';
 
 export interface Position {
 	x: number;
@@ -23,6 +24,9 @@ export const Desktop = () => {
       });
   };
 
+  
+	// TODO: make close windows functionallity
+
   return (
     <div 
       className={styles.container}
@@ -30,9 +34,18 @@ export const Desktop = () => {
       onMouseMove={ onMouseMove }
     >
       <Icon 
-        name="test" iconUrl="/assets/imgs/apple-outlined.png"
+        name='test' iconUrl='/assets/imgs/apple-outlined.png'
         containerRef={ desktopRef }
-        initPosition={{ x: 100, y: 100 }}
+        initPosition={{ x: 20, y: 30 }}
+        mousePosition={ mousePosition }
+      />
+
+      <Window 
+        width={400}
+        height={400}
+        name='test'
+        containerRef={ desktopRef }
+        initPosition={{ x: 20, y: 30 }}
         mousePosition={ mousePosition }
       />
     </div>
