@@ -5,12 +5,14 @@ import { Position } from '../desktop';
 import styles from './styles/window.module.css';
 
 interface WindowProps {
+  taskId: number;
 	name: string;
 	width: number;
 	height: number;
 	containerRef: RefObject<HTMLDivElement>;
 	initPosition: Position;
 	mousePosition: Position;
+  onClose: (taskId: number) => void;
 };
 
 export const Window: FC<WindowProps> = ({
@@ -20,6 +22,8 @@ export const Window: FC<WindowProps> = ({
 	mousePosition,
 	initPosition,
 	containerRef,
+  onClose,
+  taskId,
 }) => {
 	const { 
 		x, y,
@@ -61,11 +65,8 @@ export const Window: FC<WindowProps> = ({
 				<div className={ styles.topbar__action }	>
 					<button 
 						className={ styles.topbar__button }
+            onClick={() => onClose(taskId)}
 					>
-						{/*
-							TODO: make close windows functionallity
-							*onClick={ () =>  }
-						*/}
 						x
 					</button>
 				</div>

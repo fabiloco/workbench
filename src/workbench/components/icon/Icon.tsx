@@ -10,19 +10,23 @@ import { Position } from '../desktop';
 import styles from './styles/icon.module.css';
 
 interface IconProps {
+  taskId: number;
 	name: string;
 	iconUrl: string;
 	containerRef: RefObject<HTMLDivElement>;
 	initPosition: Position;
 	mousePosition: Position;
+  onDoubleClick: (taskId: number) => void;
 };
 
 export const Icon: FC<IconProps> = ({ 
+  taskId,
 	name, 
 	iconUrl, 
 	containerRef,
 	initPosition,
 	mousePosition,
+  onDoubleClick,
 }) => {
 	const { 
 		x, y,
@@ -35,7 +39,7 @@ export const Icon: FC<IconProps> = ({
 			className={ styles.container }
 			onMouseDown={ onDragStart }
 			onMouseUp={ onDragEnd }
-			onDoubleClick={ () => console.log('double click') }
+			onDoubleClick={ () => onDoubleClick(taskId) }
 			style={{
 				transform: `translate(${x}px, ${y}px)`,
 			}}
