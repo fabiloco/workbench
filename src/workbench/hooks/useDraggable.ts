@@ -4,7 +4,7 @@ import { Position } from '../store';
 
 export const useDraggable = (
   initPosition: Position,
-  mousePosition: Position
+  mousePosition: Position,
 ) => {
   const draggableRef = useRef<HTMLElement>(
     null

@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { useDraggable } from '../../hooks';
-import { Position } from '../../store';
+import { Position, useTaskActions } from '../../store';
 
 import styles from './styles/icon.module.css';
 
@@ -9,23 +9,27 @@ interface IconProps {
   taskId: number;
   name: string;
   iconUrl: string;
-  initPosition: Position;
+  position: Position;
   mousePosition: Position;
-  onDoubleClick: (taskId: number) => void;
 }
 
 export const Icon: FC<IconProps> = ({
   taskId,
   name,
   iconUrl,
-  initPosition,
+  position,
   mousePosition,
-  onDoubleClick,
 }) => {
+  const { toggleTask, onIconPositionChange } = useTaskActions();
+
   const { x, y, onDragEnd, onDragStart, draggableRef } = useDraggable(
-    initPosition,
-    mousePosition
+    position,
+    mousePosition,
   );
+
+  useEffect(() => {
+    onIconPositionChange({x, y}, taskId);
+  }, [x, y]);
 
   return (
     <div
@@ -34,7 +38,7 @@ export const Icon: FC<IconProps> = ({
       className={styles.container}
       onMouseDown={onDragStart}
       onMouseUp={onDragEnd}
-      onDoubleClick={() => onDoubleClick(taskId)}
+      onDoubleClick={() => toggleTask(taskId)}
       style={{
         transform: `translate(${x}px, ${y}px)`,
       }}

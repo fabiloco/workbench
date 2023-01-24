@@ -1,42 +1,53 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { useDraggable } from '../../hooks';
 
-import { Position } from '../../store';
+import { Position, Size, useTaskActions } from '../../store';
 
 import styles from './styles/window.module.css';
 
 interface WindowProps {
   taskId: number;
   name: string;
-  width: number;
-  height: number;
-  initPosition: Position;
+  initPosition?: Position;
+  size?: Size;
   mousePosition: Position;
   onClose: (taskId: number) => void;
 }
 
+const getCenteredPosition = (size: Size): Position => {
+  return {
+    x: (window.innerWidth - size.width) / 2,
+    y: (window.innerHeight - size.height) / 2 ,
+  };
+};
+
 export const Window: FC<WindowProps> = ({
   name,
-  width,
-  height,
   mousePosition,
   initPosition,
   onClose,
   taskId,
+  size = { width: 400, height: 400 },
 }) => {
   const { x, y, onDragEnd, onDragStart, draggableRef } = useDraggable(
-    initPosition,
+    initPosition ? initPosition : getCenteredPosition(size),
     mousePosition
   );
+
+  const { toggleTask, onIconPositionChange } = useTaskActions();
+
+  // useEffect(() => {
+  //   onIconPositionChange(initPosition, taskId);
+  // }, [x, y]);
 
   return (
     <div
       ref={draggableRef}
       className={styles.container}
       style={{
-        width,
-        height,
+        width: size.width,
+        height: size.height,
         transform: `translate(${x}px, ${y}px)`,
       }}
     >

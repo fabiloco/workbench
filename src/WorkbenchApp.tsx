@@ -1,9 +1,12 @@
+import { useEffect } from 'react';
 import { Taskbar, Desktop } from './workbench/components';
 
-import { useMousePositionActions } from './workbench/store';
+import { useMousePositionActions, useTaskActions } from './workbench/store';
 
 export const WorkbenchApp = () => {
   const { changePosition } = useMousePositionActions();
+
+  const { storeTasks, retriveTasks } = useTaskActions();
 
   const onMouseMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     changePosition({
@@ -11,6 +14,16 @@ export const WorkbenchApp = () => {
       y: event.pageY,
     });
   };
+
+  useEffect(() => {
+    retriveTasks();
+
+    document.addEventListener('visibilitychange', (e) => {
+      if (document.hidden) {
+        storeTasks();
+      }
+    });
+  }, []);
 
   return (
     <div className='container' onMouseMove={onMouseMove}>

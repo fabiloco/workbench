@@ -10,36 +10,36 @@ export const Desktop = () => {
   const mousePosition = useMousePosition();
 
   const tasks = useTasks();
-  const { toggleTask } = useTaskActions();
+  const { toggleTask, onIconPositionChange } = useTaskActions();
 
   return (
-    <div
-      className={styles.container}
-    >
-      {tasks.map(({ id, name, iconUrl, open }) => (
-        <Fragment key={id}>
-          <Icon
-            taskId={id}
-            onDoubleClick={toggleTask}
-            name={name}
-            iconUrl={iconUrl}
-            initPosition={{ x: 20, y: 30 }}
-            mousePosition={mousePosition}
-          />
-
-          {open && (
-            <Window
+    <div className={styles.container}>
+      {tasks.map(
+        ({ id, name, iconUrl, open, iconPosition, windowSize }) => (
+          <Fragment key={id}>
+            <Icon
               taskId={id}
-              onClose={toggleTask}
-              width={400}
-              height={400}
               name={name}
-              initPosition={{ x: 20, y: 30 }}
+              iconUrl={iconUrl}
+              position={iconPosition}
               mousePosition={mousePosition}
             />
-          )}
-        </Fragment>
-      ))}
+
+            {open && (
+              <Window
+                taskId={id}
+                onClose={toggleTask}
+                size={{
+                  width: windowSize.width,
+                  height: windowSize.height,
+                }}
+                name={name}
+                mousePosition={mousePosition}
+              />
+            )}
+          </Fragment>
+        )
+      )}
     </div>
   );
 };
