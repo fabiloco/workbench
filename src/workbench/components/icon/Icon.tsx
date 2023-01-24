@@ -1,4 +1,4 @@
-import { FC, RefObject, useEffect } from 'react';
+import { FC } from 'react';
 
 import { useDraggable } from '../../hooks';
 import { Position } from '../../store';
@@ -9,7 +9,6 @@ interface IconProps {
   taskId: number;
   name: string;
   iconUrl: string;
-  containerRef: RefObject<HTMLDivElement>;
   initPosition: Position;
   mousePosition: Position;
   onDoubleClick: (taskId: number) => void;
@@ -19,20 +18,18 @@ export const Icon: FC<IconProps> = ({
   taskId,
   name,
   iconUrl,
-  containerRef,
   initPosition,
   mousePosition,
   onDoubleClick,
 }) => {
-  const { x, y, onDragEnd, onDragStart } = useDraggable(
-    containerRef,
+  const { x, y, onDragEnd, onDragStart, draggableRef } = useDraggable(
     initPosition,
     mousePosition
   );
 
-
   return (
     <div
+      ref={draggableRef}
       tabIndex={0}
       className={styles.container}
       onMouseDown={onDragStart}

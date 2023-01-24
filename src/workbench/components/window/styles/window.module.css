@@ -40,6 +40,11 @@
 	z-index: 10;
 }
 
+.real__dragger:active {
+  /* cursor: move; */
+}
+
+
 .topbar__dragger {
 	display: flex;
 	flex-direction: column;

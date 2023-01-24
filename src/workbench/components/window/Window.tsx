@@ -1,6 +1,8 @@
-import { FC, RefObject } from 'react';
+import { FC } from 'react';
+
 import { useDraggable } from '../../hooks';
-import { Position } from '../desktop';
+
+import { Position } from '../../store';
 
 import styles from './styles/window.module.css';
 
@@ -9,7 +11,6 @@ interface WindowProps {
   name: string;
   width: number;
   height: number;
-  containerRef: RefObject<HTMLDivElement>;
   initPosition: Position;
   mousePosition: Position;
   onClose: (taskId: number) => void;
@@ -21,18 +22,17 @@ export const Window: FC<WindowProps> = ({
   height,
   mousePosition,
   initPosition,
-  containerRef,
   onClose,
   taskId,
 }) => {
-  const { x, y, onDragEnd, onDragStart } = useDraggable(
-    containerRef,
+  const { x, y, onDragEnd, onDragStart, draggableRef } = useDraggable(
     initPosition,
     mousePosition
   );
 
   return (
     <div
+      ref={draggableRef}
       className={styles.container}
       style={{
         width,

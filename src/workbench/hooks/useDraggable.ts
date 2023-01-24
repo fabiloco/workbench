@@ -1,17 +1,18 @@
-import { RefObject, useEffect, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 import { Position } from '../store';
 
 export const useDraggable = (
-  containerRef: RefObject<HTMLDivElement>,
   initPosition: Position,
   mousePosition: Position
 ) => {
+  const draggableRef = useRef<HTMLElement>(
+    null
+  ) as MutableRefObject<HTMLDivElement>;
   const [dragging, setDragging] = useState(false);
-  const [{ x, y }, setPosition] = useState<Position>({
-    x: initPosition.x,
-    y: initPosition.y,
-  });
+
+  const [x, setX] = useState(initPosition.x);
+  const [y, setY] = useState(initPosition.y);
 
   const [{ dx, dy }, setDPosition] = useState({ dx: 0, dy: 0 });
 
@@ -28,40 +29,39 @@ export const useDraggable = (
   };
 
   useEffect(() => {
-    if (!dragging) return;
+    let animationFrameId: number;
 
-    console.log(x);
+    const updatePosition = () => {
+      if (!dragging) return;
 
-    if (x < 0 || x > window.innerWidth) {
-      setPosition((prevState) => {
-        return {
-          ...prevState,
-          y: mousePosition.y - containerRef.current!.offsetTop - dy,
-        };
-      });
-    } else if (y < 0 || y > window.innerHeight) {
-      setPosition((prevState) => {
-        return {
-          ...prevState,
-          x: mousePosition.x - containerRef.current!.offsetLeft - dx,
-        };
-      });
+      const newY = mousePosition.y - draggableRef.current!.offsetTop - dy;
+      const newX = mousePosition.x - draggableRef.current!.offsetLeft - dx;
 
-    } else {
-      setPosition((prevState) => {
-        return {
-          ...prevState,
-          x: mousePosition.x - containerRef.current!.offsetLeft - dx,
-          y: mousePosition.y - containerRef.current!.offsetTop - dy,
-        };
-      });
-    }
+      setY(
+        Math.min(
+          window.innerHeight - draggableRef.current!.clientHeight,
+          Math.max(0, newY)
+        )
+      );
+      setX(
+        Math.min(
+          window.innerWidth - draggableRef.current!.clientWidth,
+          Math.max(0, newX)
+        )
+      );
+
+      animationFrameId = requestAnimationFrame(updatePosition);
+    };
+
+    animationFrameId = requestAnimationFrame(updatePosition);
+    return () => cancelAnimationFrame(animationFrameId);
   }, [mousePosition, dx, dy]);
 
   return {
     onDragStart,
     onDragEnd,
 
+    draggableRef,
     x,
     y,
   };

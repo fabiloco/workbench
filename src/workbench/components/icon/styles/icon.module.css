@@ -14,6 +14,7 @@
 .container:focus > .icon__img {
   user-select: none;
 	filter: invert(100);
+  z-index: -1;
 }
 
 .icon__dragger {
@@ -27,4 +28,5 @@
 	width: 2.5rem;
 	height: 2.5rem;
   margin-bottom: 0.4rem;
+  z-index: -1;
 }

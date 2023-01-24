@@ -1,4 +1,4 @@
-import { Fragment, useRef } from 'react';
+import { Fragment } from 'react';
 import { useMousePosition, useTaskActions, useTasks } from '../../store';
 
 import { Icon } from '../icon/Icon';
@@ -6,10 +6,7 @@ import { Window } from '../window/Window';
 
 import styles from './styles/desktop.module.css';
 
-
 export const Desktop = () => {
-  const desktopRef = useRef<HTMLDivElement>(null);
-
   const mousePosition = useMousePosition();
 
   const tasks = useTasks();
@@ -18,7 +15,6 @@ export const Desktop = () => {
   return (
     <div
       className={styles.container}
-      ref={desktopRef}
     >
       {tasks.map(({ id, name, iconUrl, open }) => (
         <Fragment key={id}>
@@ -27,7 +23,6 @@ export const Desktop = () => {
             onDoubleClick={toggleTask}
             name={name}
             iconUrl={iconUrl}
-            containerRef={desktopRef}
             initPosition={{ x: 20, y: 30 }}
             mousePosition={mousePosition}
           />
@@ -39,7 +34,6 @@ export const Desktop = () => {
               width={400}
               height={400}
               name={name}
-              containerRef={desktopRef}
               initPosition={{ x: 20, y: 30 }}
               mousePosition={mousePosition}
             />
