@@ -6,6 +6,14 @@
 	width: 4rem;
 	word-break: break-word;
 	color: white;
+  background-color: 'red';
+  text-align: center;
+  user-select: none;
+}
+
+.container:focus > .icon__img {
+  user-select: none;
+	filter: invert(100);
 }
 
 .icon__dragger {
@@ -15,6 +23,8 @@
 }
 
 .icon__img {
+  user-select: none;
 	width: 2.5rem;
 	height: 2.5rem;
+  margin-bottom: 0.4rem;
 }

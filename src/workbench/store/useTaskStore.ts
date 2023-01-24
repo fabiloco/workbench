@@ -6,15 +6,15 @@ export interface Task {
   open: boolean;
   name: string;
   iconUrl: string;
-};
+}
 
 interface TaskStore {
   tasks: Task[];
   actions: {
-    addTask: (task: Task) => void
-    toggleTask: (taskId: number) => void,
-  },
-};
+    addTask: (task: Task) => void;
+    toggleTask: (taskId: number) => void;
+  };
+}
 
 const useTaskStore = create<TaskStore>((set, get) => ({
   tasks: defaultTasks,
@@ -22,15 +22,22 @@ const useTaskStore = create<TaskStore>((set, get) => ({
     addTask: (newTask) => {
       const tasks = get().tasks;
       tasks.push(newTask);
-      set({tasks})
+      set({ tasks });
     },
     toggleTask: (taskId: number) => {
       const tasks = get().tasks;
-      const taskToToggle = tasks.find(({id}) => id === taskId);
-
-      if (taskToToggle) {
-        taskToToggle.open = !taskToToggle.open;
-      };
+      set({
+        tasks: tasks.map((task) => {
+          if (task.id === taskId) {
+            return {
+              ...task,
+              open: !task.open,
+            };
+          } else {
+            return task;
+          }
+        }),
+      });
     },
   },
 }));

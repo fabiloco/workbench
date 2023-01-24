@@ -1,26 +1,16 @@
-import { Fragment, useRef, useState } from 'react';
-import { useTaskActions, useTasks } from '../../store';
+import { Fragment, useRef } from 'react';
+import { useMousePosition, useTaskActions, useTasks } from '../../store';
 
 import { Icon } from '../icon/Icon';
 import { Window } from '../window/Window';
 
 import styles from './styles/desktop.module.css';
 
-export interface Position {
-  x: number;
-  y: number;
-}
 
 export const Desktop = () => {
-  const [mousePosition, setMousePosition] = useState<Position>({ x: 0, y: 0 });
   const desktopRef = useRef<HTMLDivElement>(null);
 
-  const onMouseMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    setMousePosition({
-      x: event.pageX,
-      y: event.pageY,
-    });
-  };
+  const mousePosition = useMousePosition();
 
   const tasks = useTasks();
   const { toggleTask } = useTaskActions();
@@ -29,7 +19,6 @@ export const Desktop = () => {
     <div
       className={styles.container}
       ref={desktopRef}
-      onMouseMove={onMouseMove}
     >
       {tasks.map(({ id, name, iconUrl, open }) => (
         <Fragment key={id}>
