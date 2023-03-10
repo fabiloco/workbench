@@ -1,0 +1,7 @@
+@import url('../../../../colors.css');
+
+.p {
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--secondary);
+}

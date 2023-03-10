@@ -1,13 +1,14 @@
-import { FC, useEffect } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 
-import { useDraggable } from '../../hooks';
+import { useDraggable } from '../hooks';
 
-import { Position, Size, useTaskActions } from '../../store';
+import { Position, Size, useTaskActions } from '../store';
 
 import styles from './styles/window.module.css';
 
 interface WindowProps {
   taskId: number;
+  children: ReactNode;
   name: string;
   initPosition?: Position;
   size?: Size;
@@ -24,6 +25,7 @@ const getCenteredPosition = (size: Size): Position => {
 
 export const Window: FC<WindowProps> = ({
   name,
+  children,
   mousePosition,
   initPosition,
   onClose,
@@ -75,7 +77,9 @@ export const Window: FC<WindowProps> = ({
         </div>
       </div>
 
-      <div className={styles.window}></div>
+      <div className={styles.window}>
+        {children}
+      </div>
     </div>
   );
 };

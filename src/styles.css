@@ -1,6 +1,8 @@
+@import url('colors.css');
+
 @font-face {
-    font-family: "ModernDOS8x16";
-    src: url("../assets/fonts/ModernDOS8x16.ttf");
+  font-family: 'ModernDOS8x16';
+  src: url('../assets/fonts/ModernDOS8x16.ttf');
 }
 
 * {
@@ -9,7 +11,7 @@
   font-size: 16px;
   box-sizing: border-box;
 
-  font-family: "ModernDOS8x16";
+  font-family: 'ModernDOS8x16';
   outline: none;
   overflow: hidden;
 }
@@ -29,3 +31,29 @@ img {
   -o-user-drag: none;
   user-drag: none;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--primary);
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  /* border-left: 0.1rem solid var(--secondary); */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  stroke-width: 0.2rem;
+  border: 0.2rem solid var(--primary);
+  border-bottom: none;
+  border-top: none;
+}
+
+/* Handle */
+/* ::-webkit-scrollbar-thumb { */
+/*   background: var(--primary); */
+/* } */

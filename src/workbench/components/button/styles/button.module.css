@@ -1,0 +1,12 @@
+@import url("../../../../colors.css");
+
+.button {
+  border: 2px solid var(--secondary);
+	background-color: var(--primary);
+  padding: 0.2rem 1.4rem;
+  color: var(--secondary);
+}
+
+.button:active {
+	filter: invert(100);
+}

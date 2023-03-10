@@ -1,6 +1,7 @@
 :root {
   --taskbar: purple;
   --desktop-bg: blue;
-  --primary: #0b63c4; 
+  --primary: #0b63c4;
   --secondary: #fffffe;
+  --accent: rgb(255, 136, 0);
 }

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { create } from 'zustand';
 import { defaultTasks } from '../constants';
 import { Position } from './useMousePositionStore';
@@ -14,6 +15,7 @@ export interface Task {
   iconUrl: string;
   iconPosition: Position;
   windowSize: Size;
+  content: ReactNode;
 }
 
 interface TaskStore {
@@ -28,8 +30,8 @@ interface TaskStore {
 }
 
 const useTaskStore = create<TaskStore>((set, get) => ({
-  // tasks: defaultTasks,
-  tasks: JSON.parse(localStorage.getItem('tasks') as string)|| defaultTasks,
+  tasks: defaultTasks,
+  // tasks: JSON.parse(localStorage.getItem('tasks') as string)|| defaultTasks,
   actions: {
     addTask: (newTask) => {
       const tasks = get().tasks;

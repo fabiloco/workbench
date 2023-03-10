@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { useMousePosition, useTaskActions, useTasks } from '../../store';
+import { useMousePosition, useTaskActions, useTasks } from '../store';
 
 import { Icon } from '../icon/Icon';
 import { Window } from '../window/Window';
@@ -10,12 +10,12 @@ export const Desktop = () => {
   const mousePosition = useMousePosition();
 
   const tasks = useTasks();
-  const { toggleTask, onIconPositionChange } = useTaskActions();
+  const { toggleTask } = useTaskActions();
 
   return (
     <div className={styles.container}>
       {tasks.map(
-        ({ id, name, iconUrl, open, iconPosition, windowSize }) => (
+        ({ id, name, iconUrl, open, iconPosition, windowSize, content }) => (
           <Fragment key={id}>
             <Icon
               taskId={id}
@@ -35,7 +35,9 @@ export const Desktop = () => {
                 }}
                 name={name}
                 mousePosition={mousePosition}
-              />
+              >
+                {content}
+              </Window>
             )}
           </Fragment>
         )

@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 
-import { useDraggable } from '../../hooks';
-import { Position, useTaskActions } from '../../store';
+import { useDraggable } from '../hooks';
+import { Position, useTaskActions } from '../store';
 
 import styles from './styles/icon.module.css';
 

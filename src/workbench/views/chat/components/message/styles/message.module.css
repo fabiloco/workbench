@@ -1,0 +1,10 @@
+@import url('../../../../../../colors.css');
+
+.container {
+  margin-top: 0.4rem;
+  height: fit-content;
+}
+
+.user_span {
+  color: var(--accent);
+}

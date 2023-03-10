@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Taskbar, Desktop } from './workbench/components';
+import { Taskbar, Desktop } from './workbench';
 
 import { useMousePositionActions, useTaskActions } from './workbench/store';
 
@@ -15,15 +15,14 @@ export const WorkbenchApp = () => {
     });
   };
 
-  useEffect(() => {
-    retriveTasks();
-
-    document.addEventListener('visibilitychange', (e) => {
-      if (document.hidden) {
-        storeTasks();
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   retriveTasks();
+  //   document.addEventListener('visibilitychange', (e) => {
+  //     if (document.hidden) {
+  //       storeTasks();
+  //     }
+  //   });
+  // }, []);
 
   return (
     <div className='container' onMouseMove={onMouseMove}>

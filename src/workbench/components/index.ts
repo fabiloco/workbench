@@ -1,2 +1,3 @@
-export * from './desktop';
-export * from './taskbar';
+export * from './text';
+export * from './button';
+export * from './heading';
