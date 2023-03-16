@@ -8,18 +8,27 @@ import { Message } from '../types';
 const socket = io('http://localhost:3001');
 
 export const useChat = () => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<boolean | unknown>(false);
+
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Array<Message>>([]);
 
   const chatBotton = useRef<HTMLDivElement>(null);
 
-  const { data, error, isLoading } = useSWR<Array<Message>>(
-    'http://localhost:3001/api/v1/chat',
-    {
-      onSuccess: () =>
-        chatBotton.current?.scrollIntoView({ behavior: 'smooth' }),
+  const fetchMessages = async () => {
+    try {
+      const res = await fetch('http://localhost:3001/api/v1/chat');
+      const messages = await res.json();
+      setMessages(messages);
+      chatBotton.current?.scrollIntoView({ behavior: 'smooth' });
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+      setMessages([]);
     }
-  );
+  };
 
   const onMessageChange = (value: string) => {
     setMessage(value);
@@ -36,25 +45,30 @@ export const useChat = () => {
   };
 
   const onMessage = (message: Message) => {
+    console.log('lol');
     setMessages([...messages, message]);
     chatBotton.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
-    socket.on('message', onMessage);
+    socket.on('messageResponse', onMessage);
     return () => {
-      socket.off('message', onMessage);
+      socket.off('messageResponse', onMessage);
     };
-  }, [message]);
+  }, [socket, messages]);
 
   useEffect(() => {
-    setMessages(data || []);
-  }, [data]);
+    fetchMessages();
+  }, []);
+
+  useEffect(() => {
+    chatBotton.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   return {
     messageValue: message,
     messages,
-    isLoading,
+    isLoading: loading,
     error,
     chatBotton,
 
