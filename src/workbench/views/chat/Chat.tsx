@@ -1,5 +1,4 @@
-import { FC, useEffect, useState } from 'react';
-import { Button, Heading, Text } from '../../components';
+import { FC, useState } from 'react';
 
 import { useTaskActions } from '../../store';
 import { Message } from './components';
@@ -18,22 +17,43 @@ interface ChatProps {
 export const Chat: FC<ChatProps> = ({ heading, message, taskID }) => {
   const { toggleTask } = useTaskActions();
 
+  const {
+    messageValue,
+    messages,
+    isLoading,
+    error,
+    onMessageChange,
+    onSend,
+    chatBotton,
+  } = useChat();
+
   const [username, setUsername] = useState(
     localStorage.getItem('username') || ''
   );
 
-  const { messageValue, onMessageChange, onSend } = useChat();
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <span className={styles.span}>loading...</span>
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    console.log('username changed');
-  }, [username]);
+  if (error) {
+    return (
+      <div className={styles.container}>
+        <span className={styles.span}>
+          Oops... There was an error while trying to fetch the data :/
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
-      <Message
-        user='fabiloco'
-        text='Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.'
-      />
+      {messages?.map(({ uuid, owner, message }) => (
+        <Message key={uuid} user={owner} text={message} />
+      ))}
 
       {username === localStorage.getItem('username') ? (
         <ChatInput
@@ -44,6 +64,8 @@ export const Chat: FC<ChatProps> = ({ heading, message, taskID }) => {
       ) : (
         <UsernameInput setUsername={setUsername} />
       )}
+
+      <div style={{ marginTop: '2rem' }} ref={chatBotton} />
     </div>
   );
 };
