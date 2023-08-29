@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-import useSWR from 'swr';
-
 import { io } from 'socket.io-client';
 import { Message } from '../types';
 

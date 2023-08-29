@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { useDraggable } from '../hooks';
 
@@ -19,7 +19,7 @@ interface WindowProps {
 const getCenteredPosition = (size: Size): Position => {
   return {
     x: (window.innerWidth - size.width) / 2,
-    y: (window.innerHeight - size.height) / 2 ,
+    y: (window.innerHeight - size.height) / 2,
   };
 };
 
@@ -77,9 +77,7 @@ export const Window: FC<WindowProps> = ({
         </div>
       </div>
 
-      <div className={styles.window}>
-        {children}
-      </div>
+      <div className={styles.window}>{children}</div>
     </div>
   );
 };
